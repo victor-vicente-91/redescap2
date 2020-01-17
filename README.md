@@ -1,5 +1,19 @@
-# Capsule
+# Capsule Network Keras (Tensorflow 2.0)
 
+This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & imporving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
+
+# Rquirements
+Tensorflow >= 2.0.0
+
+# How to use 
+```console
+python capsule_test.py
+```
+
+# Performance
+
+
+**old text**
 动态路由算法来自：https://kexue.fm/archives/5112
 
 该版本的动态路由略微不同于Hinton原版，在“单数字训练、双数字测试”的准确率上有95%左右。
