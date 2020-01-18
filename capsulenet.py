@@ -11,33 +11,53 @@ import argparse
 import time
 
 def load_data(args):
-	datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
-	
-	datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-    **datagen_kwargs)
-	
-	val_generator = datagen.flow_from_directory(
-		args.directory,
-		target_size=(224, 224),
-		batch_size=args.batch_size,
-        color_mode = 'grayscale',
-		subset='validation')
+    datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
+    
+    datagen = tf.keras.preprocessing.image.ImageDataGenerator(**datagen_kwargs)
+    
+    generator_args = dict()
+    if(args.image_size!=0):
+        generator_args["target_size"] = (args.image_size,args.image_size)
+    if(args.grayscale):
+        generator_args["color_mode"] = 'grayscale'
+        
 
-	
-	train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-		#rotation_range=40,
-		#horizontal_flip=True,
-		#width_shift_range=0.2, height_shift_range=0.2,
-		#shear_range=0.2, zoom_range=0.2,      
-		**datagen_kwargs) #channel_shift_range=0.2, #brightness_range=[-0.1, 0.1], 
+    val_generator = datagen.flow_from_directory(
+        args.directory,
+        batch_size=args.batch_size,
+        subset='validation',
+        **generator_args)
 
-	train_generator = train_datagen.flow_from_directory(
+    
+    train_datagen_args = datagen_kwargs.copy()
+
+    if (args.rotation_range!=0):
+        train_datagen_args["rotation_range"]=args.rotation_range
+    if(args.horizontal_flip):
+        train_datagen_args["horizontal_flip"] = True
+    if(args.width_shift_range!=0.0):
+        train_datagen_args["width_shift_range"] = args.width_shift_range
+    if(args.height_shift_range!=0.0):
+        train_datagen_args["height_shift_range"] = args.height_shift_range
+    if(args.shear_range!=0.0):
+        train_datagen_args["shear_range"]=args.shear_range
+    if(args.zoom_range!=0.0):
+        train_datagen_args["zoom_range"]=args.zoom_range
+    if(args.channel_shift_range!=0.0):
+        train_datagen_args["channel_shift_range"]=args.channel_shift_range
+    if(args.brightness_range!=0.0):
+        train_datagen_args["brightness_range"] = [args.brightness_range*-1, args.brightness_range]
+
+
+    train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+		**datagen_kwargs)
+
+    train_generator = train_datagen.flow_from_directory(
 		args.directory, subset="training", shuffle=True,
-		target_size=(224, 224),
-        color_mode = 'grayscale',
-		batch_size=args.batch_size)
+		batch_size=args.batch_size,
+        **generator_args)
 
-	return train_generator, val_generator
+    return train_generator, val_generator
 
 
 ##Prepare the training data
@@ -93,8 +113,8 @@ if __name__ == "__main__":
     parser.add_argument('--height_shift_range', default=0.0, type=float, help="Height shift range for data augmentation. Should be within -1.0 to +1.0.")
     parser.add_argument('--shear_range', default=0.0, type=float, help="Shear range for data augmentation.")
     parser.add_argument('--zoom_range', default=0.0, type=float, help="Zoom range for data augmentation.")
-	#parser.add_argument('--channel_shift_range', default=0.0, type=float, help="Channel shift range for data augmentation.")
-	#parser.add_argument('--brightness_range', default=0.0, type=float, help="Brightness range for data augmentation.")
+    parser.add_argument('--channel_shift_range', default=0.0, type=float, help="Channel shift range for data augmentation.")
+    parser.add_argument('--brightness_range', default=0.0, type=float, help="Brightness range for data augmentation.")
     args = parser.parse_args()
     print(args)
 

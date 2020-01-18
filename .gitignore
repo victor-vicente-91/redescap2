@@ -9,4 +9,4 @@
 *.h5
 *labels.txt
 *.tflite
-/result/trained_model
+/result
