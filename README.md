@@ -21,6 +21,12 @@ python capsule_test.py
 ### Interference
 
 
+## ToDo's
+- create "capsulenet.py" for generalized image input via ImageDataGenerator
+- add possibility to save as .tflite file
+- create a load_model tutorial
+- add saving method for easier model loading
+- add benchmarks
 
 **old text**
 
