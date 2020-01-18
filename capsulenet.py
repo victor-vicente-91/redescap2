@@ -1,4 +1,4 @@
-from Capsule_Keras import *
+from capsulelayer import *
 import tensorflow as tf
 from tensorflow.keras import utils
 from tensorflow.keras.datasets import mnist
