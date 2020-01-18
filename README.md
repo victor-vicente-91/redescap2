@@ -5,10 +5,15 @@ This project aims to update the existing Capsule Network Architecture of [bojone
 ## Rquirements
 Tensorflow >= 2.0.0
 
-## How to use 
-```console
+## How to use
+```
 python capsulenet.py -d training_data -n flower_model 
 ```
+### Performance test
+```
+python capsule_test.py
+```
+
 ### Parameters
 --epochs
 
