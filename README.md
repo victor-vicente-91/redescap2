@@ -1,14 +1,56 @@
 # Capsule Network Keras (Tensorflow 2.0)
 
-This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & imporving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
+This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & improving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
 
 ## Rquirements
 Tensorflow >= 2.0.0
 
 ## How to use 
 ```console
-python capsule_test.py
+python capsulenet.py -d training_data -n flower_model 
 ```
+### Parameters
+--epochs
+
+--batch_size'
+
+-r, --routings = Number of iterations used in routing algorithm. Should be > 0
+
+--capsule_dim = Dimmension of the Capsule Layer.
+
+*--debug = Save weights by TensorBoard (currently not working, may being deleted)*
+
+--save_dir
+
+--tflite = Option to export the trained model in Tensorflow Lite.
+
+-d, --directory = Directory where the training data is stored. Error if not assigned.
+
+-n, --name = Name for the model with which it will be saved.
+
+-vs, --validation_split = Fraction of images reserved for validation (strictly between 0 and 1).
+
+***###################### NOT fully implemented yet ###########################***
+
+--grayscale' = Changes Network from grayscale mode to RGB mode.
+
+--rotation_range = Rotation range for data augmentation.
+
+--horizontal_flip = Enables horizontal flip for data augmentation.
+
+--width_shift_range = Widht shift range for data augmentation. Should be within -1.0 to +1.0.
+
+--height_shift_range = Height shift range for data augmentation. Should be within -1.0 to +1.0.
+
+--shear_range = Shear range for data augmentation.
+
+--zoom_range = Zoom range for data augmentation.
+
+***not even implemented (comming in future itteration)***
+
+*--channel_shift_range = Channel shift range for data augmentation.*
+
+*--brightness_range = Brightness range for data augmentation.*
 
 ## Performance
 ### Training
@@ -17,13 +59,13 @@ python capsule_test.py
 |Graphics Card|min time/epoch|max time/epoch|steps/epoch|total training time|
 |----------------|--------------|--------------|-----------|----------------|
 |Nvidia GTX 1060M|
-|Tesla T4
+|Tesla T4 (Colab)
 
 ### Interference
 
 
 ## ToDo's
-- create "capsulenet.py" for generalized image input via ImageDataGenerator
+- create "capsulenet.py" for generalized image input via ImageDataGenerator - working ✔
 - add possibility to save as .tflite file
 - create a load_model tutorial
 - add saving method for easier model loading
