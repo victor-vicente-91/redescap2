@@ -1,9 +1,10 @@
 #! -*- coding: utf-8 -*-
 # refer: https://kexue.fm/archives/5112
 
-from keras import activations
-from keras import backend as K
-from keras.engine.topology import Layer
+import tensorflow as tf
+from tensorflow.keras import activations
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Layer
 
 def squash(x, axis=-1):
     s_squared_norm = K.sum(K.square(x), axis, keepdims=True) + K.epsilon()
@@ -79,3 +80,14 @@ class Capsule(Layer):
 
     def compute_output_shape(self, input_shape):
         return (None, self.num_capsule, self.dim_capsule)
+
+    def get_config(self):
+        config = super().get_config().copy()
+        config.update({
+            'num_capsule': self.num_capsule,
+            'dim_capsule': self.dim_capsule,
+            'routings': self.routings,
+            'share_weights': self.share_weights,
+            'activation': self.activation,
+        })
+        return config
