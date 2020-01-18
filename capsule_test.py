@@ -8,6 +8,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import *
 from tensorflow.keras import backend as K
 import numpy as np
+import time
 
 
 #Prepare the training data
@@ -57,11 +58,18 @@ model.compile(loss=lambda y_true,y_pred: y_true*K.relu(0.9-y_pred)**2 + 0.25*(1-
 
 model.summary()
 
+start_cnn = time.time()
+
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=20,
           verbose=1,
           validation_data=(x_test, y_test))
+
+end_cnn = time.time()
+
+training_time_cnn = end_cnn - start_cnn
+print('Training time (CNN): {}'.format(time.strftime("%H:%M:%S", time.gmtime(training_time_cnn))))
 
 Y_pred = model.predict(X_test) #用模型进行预测
 greater = np.sort(Y_pred, axis=1)[:,-2] > 0.5 #判断预测结果是否大于0.5
@@ -96,11 +104,18 @@ model.compile(loss=lambda y_true,y_pred: y_true*K.relu(0.9-y_pred)**2 + 0.25*(1-
 
 model.summary()
 
+start_capsule = time.time()
+
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=10,
           verbose=1,
           validation_data=(x_test, y_test))
+
+end_capsule = time.time()
+
+training_time_capsule = end_capsule - start_capsule
+print('Training time (Capsule): {}'.format(time.strftime("%H:%M:%S", time.gmtime(training_time_capsule))))
 
 Y_pred = model.predict(X_test) #用模型进行预测
 greater = np.sort(Y_pred, axis=1)[:,-2] > 0.5 #判断预测结果是否大于0.5
