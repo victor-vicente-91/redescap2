@@ -17,6 +17,23 @@ def softmax(x, axis=-1):
     ex = K.exp(x - K.max(x, axis=axis, keepdims=True))
     return ex/K.sum(ex, axis=axis, keepdims=True)
 
+def margin_loss(y_true, y_pred):
+    """
+    Margin loss for Eq.(4). When y_true[i, :] contains not just one `1`, this loss should work too. Not test it.
+    :param y_true: [None, n_classes]
+    :param y_pred: [None, num_capsule]
+    :return: a scalar loss value.
+    """
+    #from older version
+    #L = y_true * K.square(K.maximum(0., 0.9 - y_pred)) + \
+    #    0.5 * (1 - y_true) * K.square(K.maximum(0., y_pred - 0.1))
+    #return K.mean(K.sum(L, 1))
+
+    #according to paper
+    #return  y_true*K.relu(0.9-y_pred)**2 + 0.5*(1-y_true)*K.relu(y_pred-0.1)**2
+
+    return y_true*K.relu(0.9-y_pred)**2 + 0.25*(1-y_true)*K.relu(y_pred-0.1)**2
+
 
 #A Capsule Implement with Pure Keras
 class Capsule(Layer):
