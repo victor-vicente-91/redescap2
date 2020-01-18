@@ -11,16 +11,19 @@ python capsule_test.py
 ```
 
 ## Performance
-### Training 
+### Training
 
 |Graphics Card|min time/epoch|max time/epoch|steps/epoch|
 |----------------|--------------|--------------|-----------|
 |Nvidia GTX 1060M||||
-|||||
+|Tesla T4||||
 
 ### Interference
 
+
+
 **old text**
+
 动态路由算法来自：https://kexue.fm/archives/5112
 
 该版本的动态路由略微不同于Hinton原版，在“单数字训练、双数字测试”的准确率上有95%左右。
