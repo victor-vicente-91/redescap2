@@ -15,7 +15,7 @@ python capsule_test.py
 #### MINST Dataset
 
 |Graphics Card|min time/epoch|max time/epoch|steps/epoch|total training time|
-|----------------|--------------|--------------|-----------|
+|----------------|--------------|--------------|-----------|----------------|
 |Nvidia GTX 1060M|
 |Tesla T4
 
