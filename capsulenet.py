@@ -19,6 +19,7 @@ def load_data(args):
 		args.directory,
 		target_size=(224, 224),
 		batch_size=args.batch_size,
+        color_mode = 'grayscale',
 		subset='validation')
 
 	
@@ -32,10 +33,26 @@ def load_data(args):
 	train_generator = train_datagen.flow_from_directory(
 		args.directory, subset="training", shuffle=True,
 		target_size=(224, 224),
+        color_mode = 'grayscale',
 		batch_size=args.batch_size)
 
 	return train_generator, val_generator
 
+def margin_loss(y_true, y_pred):
+    """
+    Margin loss for Eq.(4). When y_true[i, :] contains not just one `1`, this loss should work too. Not test it.
+    :param y_true: [None, n_classes]
+    :param y_pred: [None, num_capsule]
+    :return: a scalar loss value.
+    """
+    #from older version
+    L = y_true * K.square(K.maximum(0., 0.9 - y_pred)) + \
+        0.5 * (1 - y_true) * K.square(K.maximum(0., y_pred - 0.1))
+    return K.mean(K.sum(L, 1))
+
+    #return y_true*K.relu(0.9-y_pred)**2 + 0.25*(1-y_true)*K.relu(y_pred-0.1)**2
+
+    
 
 
 ##Prepare the training data
@@ -69,18 +86,21 @@ def load_data(args):
 if __name__ == "__main__":
 
     # setting the hyper parameters
-    parser = argparse.ArgumentParser(description="Capsule Network on MNIST.")
+    parser = argparse.ArgumentParser(description="Capsule Network written in Pure Keras.")
     parser.add_argument('--epochs', default=10, type=int)
-    parser.add_argument('--batch_size', default=100, type=int)
+    parser.add_argument('--batch_size', default=32, type=int)
     parser.add_argument('-r', '--routings', default=3, type=int,
                         help="Number of iterations used in routing algorithm. should > 0")
+    parser.add_argument('--capsule_dim', default=16, type=int, help="Dimmension of the Capsule Layer.")
     parser.add_argument('--debug', action='store_true',
                         help="Save weights by TensorBoard")
     parser.add_argument('--save_dir', default='./result')
     parser.add_argument('--tflite', default=False, help="Option to export the trained model in Tensorflow Lite.")
-    parser.add_argument('-d', '--directory', default=None, help="Directory where the training data is stored. Error if not assigned.")
+    parser.add_argument('-d', '--directory', default="./images", help="Directory where the training data is stored. Error if not assigned.")
     parser.add_argument('-n', '--name', default="trained_model", help="Name for the model with which it will be saved.")
     parser.add_argument('-vs', '--validation_split', default=0.2, type=float, help="Fraction of images reserved for validation (strictly between 0 and 1).")
+    ###################### NOT fully implemented yet ###########################
+    parser.add_argument('--grayscale', default=True, help="Changes Network from grayscale mode to RGB mode.")
     parser.add_argument('--rotation_range', default=0, type=int, help="Rotation range for data augmentation.")
     parser.add_argument('--horizontal_flip', default=False, help="Enables horizontal flip for data augmentation.")
     parser.add_argument('--width_shift_range', default=0.0, type=float, help="Widht shift range for data augmentation. Should be within -1.0 to +1.0.")
@@ -101,40 +121,43 @@ if __name__ == "__main__":
 
 	#save image labels to file
     print (train_generator.class_indices)
+    classes = len(train_generator.class_indices.keys())
     labels = '\n'.join(sorted(train_generator.class_indices.keys()))
     label_file_name = args.save_dir + '\\' + args.name + '_labels.txt'
     with open(label_file_name, 'w') as f:
         f.write(labels)
 
     # define model
-    input_image = Input(shape=(None,None,1))
+    input_image = Input(shape=(None,None,1 if(args.grayscale==True) else 3))
     cnn = Conv2D(64, (3, 3), activation='relu')(input_image)
     cnn = Conv2D(64, (3, 3), activation='relu')(cnn)
     cnn = AveragePooling2D((2,2))(cnn)
     cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
     cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
     cnn = Reshape((-1, 128))(cnn)
-    capsule = Capsule(10, 16, 3, True)(cnn)
+    capsule = Capsule(classes, args.capsule_dim, args.routings, True)(cnn) #num capsule (classes), dim capsule, routings
     output = Lambda(lambda x: K.sqrt(K.sum(K.square(x), 2)), output_shape=(10,))(capsule)
 
     model = Model(inputs=input_image, outputs=output)
-    model.compile(loss=lambda y_true,y_pred: y_true*K.relu(0.9-y_pred)**2 + 0.25*(1-y_true)*K.relu(y_pred-0.1)**2,
+    model.compile(loss=margin_loss,
                   optimizer='adam',
                   metrics=['accuracy'])
 
     model.summary()
 
-    model.fit(train_generator,
-            batch_size=args.batch_size,
+    #train_x, train_y = val_generator
+
+    model.fit_generator(train_generator,
+            #batch_size=args.batch_size,
             epochs=args.epochs,
-            #verbose=1,
+            verbose=1,
             validation_data=val_generator)
 
-    tf.keras.models.save_model(model, args.name+".h5")
+    tf.keras.models.save_model(model, args.save_dir + args.name+".h5")
 
-    model.save(args.name, save_format='tf')
+    model.save(args.save_dir + args.name, save_format='tf')
 
-    if(args.tflite):
+    #if(args.tflite):
         #converter = tf.lite.TFLiteConverter.from_keras_model(model)
         #tflite_model = converter.convert()
 
