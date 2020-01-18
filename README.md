@@ -1,6 +1,6 @@
 # Capsule Network Keras (Tensorflow 2.0)
 
-This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & imporving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
+This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & improving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
 
 ## Rquirements
 Tensorflow >= 2.0.0
