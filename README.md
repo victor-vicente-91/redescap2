@@ -2,16 +2,23 @@
 
 This project aims to update the existing Capsule Network Architecture of [bojone](https://github.com/bojone/Capsule) (which was designed after https://kexue.fm/archives/5112) to be working with Tensorflow 2.0 & imporving usability with the generalized input like in my [approach](https://github.com/TheLastFrame/CapsNet-Keras/) to update [XifengGuo's Capsule Network](https://github.com/XifengGuo/CapsNet-Keras/) to Tensorflow 2.0.
 
-# Rquirements
+## Rquirements
 Tensorflow >= 2.0.0
 
-# How to use 
+## How to use 
 ```console
 python capsule_test.py
 ```
 
-# Performance
+## Performance
+### Training 
 
+|Graphics Card|min time/epoch|max time/epoch|steps/epoch|
+|----------------|--------------|--------------|-----------|
+|Nvidia GTX 1060M||||
+|||||
+
+### Interference
 
 **old text**
 动态路由算法来自：https://kexue.fm/archives/5112
