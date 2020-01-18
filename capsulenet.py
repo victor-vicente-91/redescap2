@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
     end = time.time()
 
-    training_time_capsule = end - start
+    training_time = end - start
     print('Training time: {}'.format(time.strftime("%H:%M:%S", time.gmtime(training_time))))
 
     """
