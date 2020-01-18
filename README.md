@@ -11,25 +11,45 @@ python capsulenet.py -d training_data -n flower_model
 ```
 ### Parameters
 --epochs
+
 --batch_size'
+
 -r, --routings = Number of iterations used in routing algorithm. Should be > 0
+
 --capsule_dim = Dimmension of the Capsule Layer.
+
 *--debug = Save weights by TensorBoard (currently not working, may being deleted)*
+
 --save_dir
+
 --tflite = Option to export the trained model in Tensorflow Lite.
+
 -d, --directory = Directory where the training data is stored. Error if not assigned.
+
 -n, --name = Name for the model with which it will be saved.
+
 -vs, --validation_split = Fraction of images reserved for validation (strictly between 0 and 1).
+
 ***###################### NOT fully implemented yet ###########################***
+
 --grayscale' = Changes Network from grayscale mode to RGB mode.
+
 --rotation_range = Rotation range for data augmentation.
+
 --horizontal_flip = Enables horizontal flip for data augmentation.
+
 --width_shift_range = Widht shift range for data augmentation. Should be within -1.0 to +1.0.
+
 --height_shift_range = Height shift range for data augmentation. Should be within -1.0 to +1.0.
+
 --shear_range = Shear range for data augmentation.
+
 --zoom_range = Zoom range for data augmentation.
+
 ***not even implemented (comming in future itteration)***
+
 *--channel_shift_range = Channel shift range for data augmentation.*
+
 *--brightness_range = Brightness range for data augmentation.*
 
 ## Performance
