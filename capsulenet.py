@@ -144,9 +144,9 @@ if __name__ == "__main__":
     cnn = Conv2D(128, (3, 3), activation='relu')(input_image)
     cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
     cnn = AveragePooling2D((2,2))(cnn)
-    cnn = Conv2D(264, (3, 3), activation='relu')(cnn)
-    cnn = Conv2D(264, (3, 3), activation='relu')(cnn)
-    cnn = Reshape((-1, 264))(cnn)
+    cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
+    cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
+    cnn = Reshape((-1, 128))(cnn)
     capsule = Capsule(classes, args.capsule_dim, args.routings, True)(cnn) #num capsule (classes), dim capsule, routings
     output = Lambda(lambda x: K.sqrt(K.sum(K.square(x), 2)), output_shape=(classes,))(capsule)
 
