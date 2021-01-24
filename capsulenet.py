@@ -23,7 +23,7 @@ def load_data(args):
         
 
     val_generator = datagen.flow_from_directory(
-        args.directory,
+        args.directory_validation,
         batch_size=args.batch_size,
         subset='validation',
         **generator_args)
@@ -102,6 +102,7 @@ if __name__ == "__main__":
     parser.add_argument('--save_dir', default='result')
     parser.add_argument('--tflite', default=False, help="Option to export the trained model in Tensorflow Lite.")
     parser.add_argument('-d', '--directory', default='images', help="Directory where the training data is stored. Error if not assigned.")
+    parser.add_argument('-dv', '--directory_validation', default='images', help="Directory where the validation data is stored. Error if not assigned.")
     parser.add_argument('-n', '--name', default="trained_model", help="Name for the model with which it will be saved.")
     parser.add_argument('-vs', '--validation_split', default=0.2, type=float, help="Fraction of images reserved for validation (strictly between 0 and 1).")    
     parser.add_argument('--image_size', default=0, type=int, help="Size for images which should be used by model (image_size x image_size).")
