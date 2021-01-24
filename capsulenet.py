@@ -141,12 +141,12 @@ if __name__ == "__main__":
     input_image = Input(shape=(args.image_size if(args.image_size!=0) else None,
                                args.image_size if(args.image_size!=0) else None,
                                       1 if(args.grayscale==True) else 3))
-    cnn = Conv2D(64, (3, 3), activation='relu')(input_image)
-    cnn = Conv2D(64, (3, 3), activation='relu')(cnn)
+    cnn = Conv2D(128, (3, 3), activation='relu')(input_image)
+    cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
     cnn = AveragePooling2D((2,2))(cnn)
-    cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
-    cnn = Conv2D(128, (3, 3), activation='relu')(cnn)
-    cnn = Reshape((-1, 128))(cnn)
+    cnn = Conv2D(264, (3, 3), activation='relu')(cnn)
+    cnn = Conv2D(264, (3, 3), activation='relu')(cnn)
+    cnn = Reshape((-1, 264))(cnn)
     capsule = Capsule(classes, args.capsule_dim, args.routings, True)(cnn) #num capsule (classes), dim capsule, routings
     output = Lambda(lambda x: K.sqrt(K.sum(K.square(x), 2)), output_shape=(classes,))(capsule)
 
