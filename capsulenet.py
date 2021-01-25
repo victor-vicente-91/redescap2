@@ -11,8 +11,8 @@ import argparse
 import time
 
 def load_data(args):
-    #datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
-    datagen_kwargs = dict(rescale=1./255)
+    datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
+    #datagen_kwargs = dict(rescale=1./255)
     
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(**datagen_kwargs)
     
