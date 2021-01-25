@@ -11,7 +11,8 @@ import argparse
 import time
 
 def load_data(args):
-    datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
+    #datagen_kwargs = dict(rescale=1./255, validation_split=args.validation_split)
+    datagen_kwargs = dict(rescale=1./255)
     
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(**datagen_kwargs)
     
@@ -23,8 +24,8 @@ def load_data(args):
         
 
     val_generator = datagen.flow_from_directory(
-        #args.directory_validation,
-        args.directory,
+        args.directory_validation,
+        #args.directory,
         batch_size=args.batch_size,
         subset='validation',
         **generator_args)
