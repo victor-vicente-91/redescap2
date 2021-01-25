@@ -164,7 +164,7 @@ if __name__ == "__main__":
     start = time.time()
 
     model.fit_generator(train_generator,
-            #batch_size=args.batch_size,
+            batch_size=args.batch_size,
             epochs=args.epochs,
             verbose=1)
             #validation_data=val_generator)
