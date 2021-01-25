@@ -153,7 +153,7 @@ if __name__ == "__main__":
     output = Lambda(lambda x: K.sqrt(K.sum(K.square(x), 2)), output_shape=(classes,))(capsule)
 
     model = Model(inputs=input_image, outputs=output)
-    model.compile(loss='binary_crossentropy',#margin_loss,
+    model.compile(loss=[margin_loss,'mse'],
                   optimizer='adam',
                   metrics=['accuracy'])
 
