@@ -166,8 +166,8 @@ if __name__ == "__main__":
     model.fit_generator(train_generator,
             #batch_size=args.batch_size,
             epochs=args.epochs,
-            verbose=1)
-            #validation_data=val_generator)
+            verbose=1,
+            validation_data=val_generator)
 
     end = time.time()
 
