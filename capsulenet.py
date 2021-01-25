@@ -24,8 +24,8 @@ def load_data(args):
         
 
     val_generator = datagen.flow_from_directory(
-        args.directory_validation,
-        #args.directory,
+        #args.directory_validation,
+        args.directory,
         batch_size=args.batch_size,
         subset='validation',
         **generator_args)
